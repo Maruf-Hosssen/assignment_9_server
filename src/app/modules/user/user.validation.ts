@@ -11,6 +11,10 @@ const user = z.object({
     password: z.string({
       required_error: 'Breed is required!',
     }),
+    confirmPassword: z.string({
+      required_error: 'Breed is required!',
+    }),
+    role: z.string({}).optional(),
   }),
 });
 

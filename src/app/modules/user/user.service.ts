@@ -14,13 +14,20 @@ const createUser = async (req: any) => {
     name: req.body.name,
     email: req.body.email,
     password: hashpassword,
+    confirmPassword: hashpassword,
+    role: req.body.role,
   };
+  if (!(req.body.password === req.body.confirmPassword)) {
+    console.log('password does not match');
+    throw new AppError(400, 'Password does not match');
+  }
   const result = await prisma.user.create({
     data: userData,
     select: {
       id: true,
       name: true,
       email: true,
+      role: true,
       createdAt: true,
       updatedAt: true,
     },
