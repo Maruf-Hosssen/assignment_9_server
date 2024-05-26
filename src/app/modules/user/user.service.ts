@@ -21,6 +21,7 @@ const createUser = async (req: any) => {
     console.log('password does not match');
     throw new AppError(400, 'Password does not match');
   }
+
   const result = await prisma.user.create({
     data: userData,
     select: {
@@ -32,8 +33,16 @@ const createUser = async (req: any) => {
       updatedAt: true,
     },
   });
+  const accessToken = jwtHelpers.generateToken(
+    { email: userData.email, password: userData.password },
+    'access',
+    '30d',
+  );
 
-  return result;
+  return {
+    result,
+    accessToken,
+  };
 };
 //login user
 

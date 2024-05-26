@@ -10,11 +10,19 @@ import { tokenType } from '../../interface/tokenType';
 //create user
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const result = await userServices.createUser(req);
+  const userData = result.result;
   sendResponse(res, {
     statusCode: 201,
     success: true,
     message: 'User registered successfully',
-    data: result,
+    data: {
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+      token: result.accessToken,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
+    },
   });
 });
 
