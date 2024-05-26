@@ -14,6 +14,7 @@ router.post(
 router.post('/login', userControllers.loginUser);
 
 router.get('/profile', auth(), userControllers.getSingleUser);
+router.get('/profiles', auth(), userControllers.getAllUsers);
 
 router.put('/profile', auth(), userControllers.updateUser);
 

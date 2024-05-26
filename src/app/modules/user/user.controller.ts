@@ -39,6 +39,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
       id: userData.id,
       name: userData.name,
       email: userData.email,
+      role: userData.role,
       token: result.accessToken,
     },
   });
@@ -53,6 +54,24 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
     statusCode: 201,
     success: true,
     message: 'User profile retrieved successfully',
+    data: {
+      id: result?.id,
+      name: result?.name,
+      email: result?.email,
+      role: result?.role,
+    },
+  });
+});
+
+//get all users
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const result = await userServices.getAllUsers(
+    req.headers.authorization as string,
+  );
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Retrive all user successfully',
     data: result,
   });
 });
@@ -75,4 +94,5 @@ export const userControllers = {
   loginUser,
   getSingleUser,
   updateUser,
+  getAllUsers,
 };

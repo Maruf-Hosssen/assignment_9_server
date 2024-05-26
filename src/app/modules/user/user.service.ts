@@ -44,6 +44,7 @@ const createUser = async (req: any) => {
     accessToken,
   };
 };
+
 //login user
 
 const loginUser = async (data: { email: string; password: string }) => {
@@ -52,6 +53,7 @@ const loginUser = async (data: { email: string; password: string }) => {
       email: data.email,
     },
   });
+  console.log(userData);
   const isPasswordCorrect = await bcrypt.compare(
     data.password,
     userData.password,
@@ -88,6 +90,7 @@ const getSingleUser = async (token: string) => {
       id: true,
       name: true,
       email: true,
+      role: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -95,16 +98,40 @@ const getSingleUser = async (token: string) => {
   return result;
 };
 
+//get all users
+
+const getAllUsers = async (token: string) => {
+  const decodedToken = jwt.verify(token, 'access') as JwtPayload;
+
+  const userData = await prisma.user.findUnique({
+    where: {
+      email: decodedToken.email,
+    },
+  });
+  if (userData?.role !== 'ADMIN') {
+    throw new AppError(403, 'Your are not an Admin.Thank you');
+  }
+  const result = await prisma.user.findMany();
+
+  return result;
+};
+
 //update user
 
 const updateUser = async (token: string, data: Partial<User>) => {
   const decodedToken = jwt.verify(token, 'access') as JwtPayload;
+
   const userData = await prisma.user.findUnique({
     where: {
       email: decodedToken.email,
     },
   });
   const id = userData?.id;
+  // if (userData?.role !== 'ADMIN'||) {
+  //   throw new AppError(403, 'Your are not an Admin.Thank you');
+  // }
+  console.log(decodedToken);
+  console.log(userData);
   const result = await prisma.user.update({
     where: {
       id: id,
@@ -114,6 +141,8 @@ const updateUser = async (token: string, data: Partial<User>) => {
       id: true,
       name: true,
       email: true,
+      role: true,
+      isActive: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -126,4 +155,5 @@ export const userServices = {
   loginUser,
   getSingleUser,
   updateUser,
+  getAllUsers,
 };
