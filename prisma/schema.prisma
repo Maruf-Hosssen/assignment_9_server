@@ -37,20 +37,18 @@ model User {
 //pet model
 
 model Pet {
-  id                   String            @id @default(uuid())
-  name                 String
-  species              String
-  breed                String
-  age                  Int
-  size                 String
-  location             String
-  description          String
-  temperament          String
-  medicalHistory       String?
-  adoptionRequirements String?
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @updatedAt
-  AdoptionRequest      AdoptionRequest[]
+  id              String            @id @default(uuid())
+  name            String
+  photos          String
+  description     String
+  age             Int
+  breed           String
+  gender          String
+  healthStatus    String
+  currentLocation String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  AdoptionRequest AdoptionRequest[]
 
   @@map("pets")
 }
