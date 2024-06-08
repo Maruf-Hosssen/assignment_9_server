@@ -53,8 +53,20 @@ const getAllPets = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result.data,
     });
 }));
+//get single pet
+const getSinglePet = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.petId;
+    const result = yield pet_service_1.petServices.getSinglePet(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Pet details retrived successfully',
+        data: result,
+    });
+}));
 exports.petControllers = {
     addPet,
     updatePet,
     getAllPets,
+    getSinglePet,
 };

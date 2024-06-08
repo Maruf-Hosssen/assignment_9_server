@@ -49,18 +49,29 @@ const createUser = (req) => __awaiter(void 0, void 0, void 0, function* () {
         name: req.body.name,
         email: req.body.email,
         password: hashpassword,
+        confirmPassword: hashpassword,
+        role: req.body.role,
     };
+    if (!(req.body.password === req.body.confirmPassword)) {
+        console.log('password does not match');
+        throw new appError_1.AppError(400, 'Password does not match');
+    }
     const result = yield prisma_1.default.user.create({
         data: userData,
         select: {
             id: true,
             name: true,
             email: true,
+            role: true,
             createdAt: true,
             updatedAt: true,
         },
     });
-    return result;
+    const accessToken = tokenHelper_1.jwtHelpers.generateToken({ email: userData.email, password: userData.password }, 'access', '30d');
+    return {
+        result,
+        accessToken,
+    };
 });
 //login user
 const loginUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
@@ -69,6 +80,7 @@ const loginUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
             email: data.email,
         },
     });
+    console.log(userData);
     const isPasswordCorrect = yield bcrypt.compare(data.password, userData.password);
     if (!isPasswordCorrect) {
         throw new appError_1.AppError(http_status_1.default.NOT_FOUND, 'Password does not matched');
@@ -95,10 +107,25 @@ const getSingleUser = (token) => __awaiter(void 0, void 0, void 0, function* () 
             id: true,
             name: true,
             email: true,
+            role: true,
             createdAt: true,
             updatedAt: true,
         },
     });
+    return result;
+});
+//get all users
+const getAllUsers = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    const decodedToken = jsonwebtoken_1.default.verify(token, 'access');
+    const userData = yield prisma_1.default.user.findUnique({
+        where: {
+            email: decodedToken.email,
+        },
+    });
+    if ((userData === null || userData === void 0 ? void 0 : userData.role) !== 'ADMIN') {
+        throw new appError_1.AppError(403, 'Your are not an Admin.Thank you');
+    }
+    const result = yield prisma_1.default.user.findMany();
     return result;
 });
 //update user
@@ -110,6 +137,11 @@ const updateUser = (token, data) => __awaiter(void 0, void 0, void 0, function* 
         },
     });
     const id = userData === null || userData === void 0 ? void 0 : userData.id;
+    // if (userData?.role !== 'ADMIN'||) {
+    //   throw new AppError(403, 'Your are not an Admin.Thank you');
+    // }
+    console.log(decodedToken);
+    console.log(userData);
     const result = yield prisma_1.default.user.update({
         where: {
             id: id,
@@ -119,6 +151,8 @@ const updateUser = (token, data) => __awaiter(void 0, void 0, void 0, function* 
             id: true,
             name: true,
             email: true,
+            role: true,
+            isActive: true,
             createdAt: true,
             updatedAt: true,
         },
@@ -130,4 +164,5 @@ exports.userServices = {
     loginUser,
     getSingleUser,
     updateUser,
+    getAllUsers,
 };

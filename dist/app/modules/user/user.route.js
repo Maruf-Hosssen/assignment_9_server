@@ -13,5 +13,6 @@ const router = express_1.default.Router();
 router.post('/register', (0, validateRequest_1.default)(user_validation_1.userValidation.user), user_controller_1.userControllers.createUser);
 router.post('/login', user_controller_1.userControllers.loginUser);
 router.get('/profile', (0, auth_1.default)(), user_controller_1.userControllers.getSingleUser);
+router.get('/profiles', (0, auth_1.default)(), user_controller_1.userControllers.getAllUsers);
 router.put('/profile', (0, auth_1.default)(), user_controller_1.userControllers.updateUser);
 exports.userRoutes = router;

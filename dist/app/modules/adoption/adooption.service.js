@@ -25,6 +25,8 @@ const adoptionPet = (token, data) => __awaiter(void 0, void 0, void 0, function*
     });
     const adoptionData = {
         userId: findUser === null || findUser === void 0 ? void 0 : findUser.id,
+        userName: findUser === null || findUser === void 0 ? void 0 : findUser.name,
+        email: findUser === null || findUser === void 0 ? void 0 : findUser.email,
         petId: data === null || data === void 0 ? void 0 : data.petId,
         status: 'PENDING',
         petOwnershipExperience: data.petOwnershipExperience,

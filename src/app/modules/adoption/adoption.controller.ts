@@ -7,6 +7,7 @@ const adoptionPet = catchAsync(async (req: Request, res: Response) => {
   const token = req.headers.authorization as string;
   const data = req.body;
   const result = await adoptionServices.adoptionPet(token, data);
+
   sendResponse(res, {
     statusCode: 201,
     success: true,

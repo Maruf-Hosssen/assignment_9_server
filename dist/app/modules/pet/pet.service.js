@@ -98,8 +98,23 @@ const getAllPets = (params, options) => __awaiter(void 0, void 0, void 0, functi
         data: result,
     };
 });
+//get single pet
+const getSinglePet = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const res = yield prisma_1.default.pet.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        return res;
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
 exports.petServices = {
     addPet,
     updatePet,
     getAllPets,
+    getSinglePet,
 };

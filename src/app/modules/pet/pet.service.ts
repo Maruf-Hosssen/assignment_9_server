@@ -90,8 +90,24 @@ const getAllPets = async (
     data: result,
   };
 };
+
+//get single pet
+const getSinglePet = async (id: string) => {
+  try {
+    const res = await prisma.pet.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+};
 export const petServices = {
   addPet,
   updatePet,
   getAllPets,
+  getSinglePet,
 };

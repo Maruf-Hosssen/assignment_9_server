@@ -19,9 +19,11 @@ const adoptionPet = async (token: string, data: AdoptionPetData) => {
   });
   const adoptionData: AdoptionRequestCreateInput = {
     userId: findUser?.id,
+    userName: findUser?.name,
+    email: findUser?.email,
     petId: data?.petId,
     status: 'PENDING',
-    petOwnershipExperience: data.petOwnershipExperience,
+    petOwnershipExperience: data?.petOwnershipExperience,
   };
   const result = await prisma.adoptionRequest.create({
     data: adoptionData as Prisma.AdoptionRequestCreateInput,

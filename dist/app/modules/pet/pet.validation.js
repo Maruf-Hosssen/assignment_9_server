@@ -7,34 +7,26 @@ const pet = zod_1.z.object({
         name: zod_1.z.string({
             required_error: 'Name is required!',
         }),
-        species: zod_1.z.string({
-            required_error: 'Species is required!',
-        }),
-        breed: zod_1.z.string({
-            required_error: 'Breed is required!',
-        }),
-        age: zod_1.z.number({
-            required_error: 'age is required!',
-        }),
-        size: zod_1.z.string({
-            required_error: 'Size is required!',
-        }),
-        location: zod_1.z.string({
-            required_error: 'Location is required!',
+        photo: zod_1.z.string({
+            required_error: 'Photo is required!',
         }),
         description: zod_1.z.string({
             required_error: 'Description is required!',
         }),
-        temperament: zod_1.z.string({
-            required_error: 'temperament is required!',
+        age: zod_1.z.number({
+            required_error: 'Age is required!',
         }),
-        medicalHistory: zod_1.z.string({
-            required_error: 'medicalHistory is required!',
+        breed: zod_1.z.string({
+            required_error: 'Breed is required!',
         }),
-        adoptionRequirements: zod_1.z.string({
-            required_error: 'adoptionRequirements is required!',
+        gender: zod_1.z.string({
+            required_error: 'Gender is required!',
         }),
-    }),
+        healthStatus: zod_1.z.string({
+            required_error: 'Health status is required!',
+        }),
+        currentLocation: zod_1.z.string().optional(),
+    }), // Make currentLocation optional since it has a default value in Prisma
 });
 const updatePet = zod_1.z.object({
     body: zod_1.z.object({

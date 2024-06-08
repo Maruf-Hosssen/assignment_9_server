@@ -21,4 +21,5 @@ router.put(
 );
 
 router.get('/pets', petControllers.getAllPets);
+router.get('/pet/:petId', petControllers.getSinglePet);
 export const petRouter = router;

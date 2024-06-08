@@ -19,11 +19,19 @@ const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 //create user
 const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_service_1.userServices.createUser(req);
+    const userData = result.result;
     (0, sendResponse_1.default)(res, {
         statusCode: 201,
         success: true,
         message: 'User registered successfully',
-        data: result,
+        data: {
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            token: result.accessToken,
+            createdAt: userData.createdAt,
+            updatedAt: userData.updatedAt,
+        },
     });
 }));
 //login user
@@ -38,6 +46,7 @@ const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
             id: userData.id,
             name: userData.name,
             email: userData.email,
+            role: userData.role,
             token: result.accessToken,
         },
     });
@@ -50,6 +59,21 @@ const getSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         statusCode: 201,
         success: true,
         message: 'User profile retrieved successfully',
+        data: {
+            id: result === null || result === void 0 ? void 0 : result.id,
+            name: result === null || result === void 0 ? void 0 : result.name,
+            email: result === null || result === void 0 ? void 0 : result.email,
+            role: result === null || result === void 0 ? void 0 : result.role,
+        },
+    });
+}));
+//get all users
+const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_service_1.userServices.getAllUsers(req.headers.authorization);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Retrive all user successfully',
         data: result,
     });
 }));
@@ -69,4 +93,5 @@ exports.userControllers = {
     loginUser,
     getSingleUser,
     updateUser,
+    getAllUsers,
 };

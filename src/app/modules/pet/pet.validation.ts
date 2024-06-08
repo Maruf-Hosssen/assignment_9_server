@@ -5,35 +5,26 @@ const pet = z.object({
     name: z.string({
       required_error: 'Name is required!',
     }),
-    species: z.string({
-      required_error: 'Species is required!',
-    }),
-    breed: z.string({
-      required_error: 'Breed is required!',
-    }),
-
-    age: z.number({
-      required_error: 'age is required!',
-    }),
-    size: z.string({
-      required_error: 'Size is required!',
-    }),
-    location: z.string({
-      required_error: 'Location is required!',
+    photo: z.string({
+      required_error: 'Photo is required!',
     }),
     description: z.string({
       required_error: 'Description is required!',
     }),
-    temperament: z.string({
-      required_error: 'temperament is required!',
+    age: z.number({
+      required_error: 'Age is required!',
     }),
-    medicalHistory: z.string({
-      required_error: 'medicalHistory is required!',
+    breed: z.string({
+      required_error: 'Breed is required!',
     }),
-    adoptionRequirements: z.string({
-      required_error: 'adoptionRequirements is required!',
+    gender: z.string({
+      required_error: 'Gender is required!',
     }),
-  }),
+    healthStatus: z.string({
+      required_error: 'Health status is required!',
+    }),
+    currentLocation: z.string().optional(),
+  }), // Make currentLocation optional since it has a default value in Prisma
 });
 
 const updatePet = z.object({

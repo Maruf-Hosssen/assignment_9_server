@@ -13,6 +13,10 @@ const user = zod_1.z.object({
         password: zod_1.z.string({
             required_error: 'Breed is required!',
         }),
+        confirmPassword: zod_1.z.string({
+            required_error: 'Breed is required!',
+        }),
+        role: zod_1.z.string({}).optional(),
     }),
 });
 exports.userValidation = {

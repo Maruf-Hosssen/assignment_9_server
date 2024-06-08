@@ -39,13 +39,13 @@ model User {
 model Pet {
   id              String            @id @default(uuid())
   name            String
-  photos          String
+  photo           String
   description     String
   age             Int
   breed           String
   gender          String
   healthStatus    String
-  currentLocation String
+  currentLocation String            @default("")
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   AdoptionRequest AdoptionRequest[]
@@ -58,6 +58,8 @@ model Pet {
 model AdoptionRequest {
   id                     String         @id @default(uuid())
   userId                 String
+  userName               String?
+  email                  String?
   user                   User           @relation(fields: [userId], references: [id])
   petId                  String
   pet                    Pet            @relation(fields: [petId], references: [id])
