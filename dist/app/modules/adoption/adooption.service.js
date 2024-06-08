@@ -29,7 +29,7 @@ const adoptionPet = (token, data) => __awaiter(void 0, void 0, void 0, function*
         email: findUser === null || findUser === void 0 ? void 0 : findUser.email,
         petId: data === null || data === void 0 ? void 0 : data.petId,
         status: 'PENDING',
-        petOwnershipExperience: data.petOwnershipExperience,
+        petOwnershipExperience: data === null || data === void 0 ? void 0 : data.petOwnershipExperience,
     };
     const result = yield prisma_1.default.adoptionRequest.create({
         data: adoptionData,
